@@ -1,0 +1,47 @@
+cabal-version:      3.0
+name:               clrs
+version:            0.1.0.0
+synopsis:           Introduction to Algorithms (CLRS) implementations in Haskell
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             infixer
+maintainer:         ryokatsu0719@gmail.com
+category:           Education
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+
+common warnings
+    ghc-options: -Wall
+
+-- Shared library: one module per algorithm, grouped by chapter/topic.
+library
+    import:           warnings
+    exposed-modules:  Algorithms.Sorting.InsertionSort
+    build-depends:    base ^>=4.20.0.0
+    hs-source-dirs:   src
+    default-language: Haskell2010
+
+-- Small demo runner to try algorithms by hand.
+executable clrs
+    import:           warnings
+    main-is:          Main.hs
+    build-depends:
+        base ^>=4.20.0.0,
+        clrs
+    hs-source-dirs:   app
+    default-language: Haskell2010
+
+-- Test suite. Add one <Name>Spec.hs per algorithm; hspec-discover finds them.
+test-suite clrs-test
+    import:             warnings
+    type:               exitcode-stdio-1.0
+    main-is:            Spec.hs
+    other-modules:      Algorithms.Sorting.InsertionSortSpec
+    hs-source-dirs:     test
+    build-tool-depends: hspec-discover:hspec-discover
+    build-depends:
+        base ^>=4.20.0.0,
+        clrs,
+        hspec,
+        QuickCheck
+    default-language:   Haskell2010
